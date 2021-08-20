@@ -20,11 +20,13 @@ namespace Calculator {
             InitializeComponent();
             btnController = new ButtonController();
             numberButtons = new Button[] { btn1, btn2, btn3, btn4, btn5,
-                                           btn6, btn7, btn8, btn9, btn0 };
+                                           btn6, btn7, btn8, btn9, btn0, btnDot }; // btnDot - исключение
             foreach (Button btn in numberButtons) {
-                btn.Click += btnController.ButtonNumberOnClick;
+                btn.Click += btnController.OnClickButtonNumber;
                 btn.Click += ChangeData;
             }
+            btnDel.Click += btnController.OnClickButtonDel;
+            btnDel.Click += ChangeData;
         }
 
     }

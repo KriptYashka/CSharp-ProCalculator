@@ -31,13 +31,21 @@ namespace Calculator{
             select = 0;
         }
 
-        public void ButtonNumberOnClick(object sender, EventArgs eventArgs) {
+        public void OnClickButtonNumber(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strDigit = btn.Text;
             if (!IsValidRes()) {
                 strRes = "";
             }
             strRes += strDigit;
+        }
+
+        public void OnClickButtonDel(object sender, EventArgs eventArgs) {
+            if (IsValidRes() && strRes != "0") {
+                strRes = strRes.Substring(0, strRes.Length - 1);
+            } else {
+                strRes = "0";
+            }
         }
 
         public string GetRes() {
