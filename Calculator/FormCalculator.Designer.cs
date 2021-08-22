@@ -166,7 +166,7 @@ namespace Calculator
             this.btnDot.Name = "btnDot";
             this.btnDot.Size = new System.Drawing.Size(50, 50);
             this.btnDot.TabIndex = 12;
-            this.btnDot.Text = ".";
+            this.btnDot.Text = ",";
             this.btnDot.UseVisualStyleBackColor = false;
             // 
             // btn0
