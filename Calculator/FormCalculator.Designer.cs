@@ -54,6 +54,7 @@ namespace Calculator
             this.button3 = new System.Windows.Forms.Button();
             this.btnMR = new System.Windows.Forms.Button();
             this.btnDel = new System.Windows.Forms.Button();
+            this.btnEqual = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelResult
@@ -314,12 +315,23 @@ namespace Calculator
             this.btnDel.Text = "Del";
             this.btnDel.UseVisualStyleBackColor = false;
             // 
+            // btnEqual
+            // 
+            this.btnEqual.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnEqual.Location = new System.Drawing.Point(116, 330);
+            this.btnEqual.Name = "btnEqual";
+            this.btnEqual.Size = new System.Drawing.Size(106, 50);
+            this.btnEqual.TabIndex = 26;
+            this.btnEqual.Text = "Вычислить";
+            this.btnEqual.UseVisualStyleBackColor = true;
+            // 
             // FormCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(556, 407);
+            this.Controls.Add(this.btnEqual);
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnMR);
             this.Controls.Add(this.button3);
@@ -379,6 +391,7 @@ namespace Calculator
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnMR;
         private System.Windows.Forms.Button btnDel;
+        private System.Windows.Forms.Button btnEqual;
     }
 }
 
