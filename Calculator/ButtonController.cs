@@ -14,17 +14,32 @@ namespace Calculator{
         private double numberMemory;
         private bool isSelect;
         private bool hasDot;
-        private int countBeforeDot, countAfterDot;
         private int select; // Select: 1(+), 2(-), 3(*), 4(/), 5(div), 6(mod)
 
         private bool IsValidCountOfNumber() {
-            bool flag = true;
+            bool flag = true, dot = false;
+            int countBeforeDot = 0, countAfterDot = 0;
+            int reqCountBeforeDot = 8, reqCountAfterDot = 10;
+            foreach (char symbol in strRes) {
+                if (Char.IsDigit(symbol)){
+                    if (!dot) {
+                        countBeforeDot++;
+                    } else {
+                        countAfterDot++;
+                    }
+                } else {
+                    if (symbol == ',') {
+                        dot = true;
+                        hasDot = true;
+                    }
+                }
+            }
             if (!hasDot) {
-                if (countBeforeDot >= 8) {
+                if (countBeforeDot >= reqCountBeforeDot) {
                     flag = false;
                 }
             } else {
-                if (countAfterDot >= 7) {
+                if (countAfterDot >= reqCountAfterDot) {
                     flag = false;
                 }
             }
@@ -32,34 +47,16 @@ namespace Calculator{
         }
 
         private bool IsValidRes() {
-            double outDouble;
-            bool flag = double.TryParse(strRes, out outDouble);
-            if (flag && (strRes == "0" || strRes == "-0." || strRes == "0." || strRes == "")) {
-                flag = false;
-            }
+            bool flag = double.TryParse(strRes, out double outDouble);
+            flag = (flag && !(strRes == "0" || strRes == "-0." || 
+                strRes == "0." || strRes == ""));
             return flag;
-        }
-
-        private void ChangeCountOfDigit(int sel=1) {
-            if (sel > 0) {
-                sel = 1;
-            }
-            if (sel < 0) {
-                sel = -1;
-            }
-            if (!hasDot) {
-                countBeforeDot += sel;
-            } else {
-                countAfterDot += sel;
-            }
         }
 
         public ButtonController() {
             strRes = "0";
             number1 = 0;
             number2 = 0;
-            countBeforeDot = 1;
-            countAfterDot = 0;
             numberMemory = 0;
             select = 0;
             hasDot = false;
@@ -91,8 +88,7 @@ namespace Calculator{
                         break;
                 }
             }
-            
-
+            select = 0;
             return res;
         }
 
@@ -111,7 +107,7 @@ namespace Calculator{
         public void OnClickButtonNumber(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strDigit = btn.Text;
-            if ((!IsValidCountOfNumber() && (strDigit != ",")) || (hasDot && strDigit == ",")) {
+            if (((!IsValidCountOfNumber() && (strDigit != ",")) || (hasDot && strDigit == ",")) && !isSelect) {
                 /* Если длина числа несоответствующая и набираешь не запятную или есть 
                  * запятая и пытаешься ввести её снова, тогда игнорируй кнопку */
                 return;
@@ -119,13 +115,10 @@ namespace Calculator{
             if ((!IsValidRes() && strDigit != ",") || isSelect) {
                 strRes = "";
                 hasDot = false;
-                countBeforeDot = 0;
-                countAfterDot = 0;
+                isSelect = false;
             }
             if (strDigit == ",") {
                 hasDot = true;
-            } else {
-                ChangeCountOfDigit(1);
             }
             strRes += strDigit;
         }
@@ -133,7 +126,7 @@ namespace Calculator{
         public void OnClickButtonSelect(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strSel = btn.Text;
-            if (select != 0) {
+            if (select == 0) {
                 number1 = Convert.ToDouble(strRes);
             }
             switch (strSel) {
@@ -160,19 +153,15 @@ namespace Calculator{
         }
 
         public void OnClickButtonDel(object sender, EventArgs eventArgs) {
-            if (IsValidRes() && strRes != "0") {
+            if (IsValidRes() && (strRes.Length > 1)) {
                 string strDigit = strRes.Substring(strRes.Length - 1);
                 strRes = strRes.Substring(0, strRes.Length - 1);
                 if (strDigit == ",") {
                     hasDot = false;
-                } else {
-                    ChangeCountOfDigit(-1);
                 }
             } else {
                 strRes = "0";
                 hasDot = false;
-                countAfterDot = 0;
-                countBeforeDot = 1;
             }
         }
 
@@ -192,6 +181,9 @@ namespace Calculator{
                         break;
                 }
                 strRes = Convert.ToString(number1);
+                if (!IsValidCountOfNumber()) {
+                    strRes = "Error: количество цифр до или после запятой превышает допустимое";
+                }
             }
         }
 

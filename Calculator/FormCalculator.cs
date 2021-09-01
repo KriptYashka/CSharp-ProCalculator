@@ -13,10 +13,12 @@ namespace Calculator {
         private Button[] numberButtons;
         private Button[] selectButtons;
         private ButtonController btnController;
-        public void ChangeData(object s, EventArgs arg) {
+
+        private void ChangeData(object s, EventArgs arg) {
             string res = btnController.GetRes();
             this.labelResult.Text = res;
         }
+
         public FormCalculator() {
             InitializeComponent();
             btnController = new ButtonController();
@@ -32,10 +34,13 @@ namespace Calculator {
                 btn.Click += btnController.OnClickButtonSelect;
             }
             foreach (Button btn in changeButtons) {
-                btn.Click += btnController.OnClickButtonSelect;
+                btn.Click += btnController.OnClickButtonChange;
+                btn.Click += ChangeData;
             }
             btnDel.Click += btnController.OnClickButtonDel;
             btnDel.Click += ChangeData;
+            btnEqual.Click += btnController.OnClickButtonEqual;
+            btnEqual.Click += ChangeData;
             
         }
 
