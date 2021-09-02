@@ -24,16 +24,39 @@ namespace Calculator {
             this.labelResult.Text = res;
         }
 
+        private void ProMode(object sender, EventArgs eventArgs) {
+            Color color;
+            if (btnController.GetPro()) {
+                color = Color.Red;
+                string digits = "0123456789";
+                Random r = new Random();
+                for (int i = 0; i < 9; ++i) {
+                    int index = r.Next(digits.Length);
+                    char digitChr = digits[index];
+                    digits = digits.Remove(index, 1);
+                    numberButtons[i].Text = Convert.ToString(digitChr);
+                }
+
+            } else {
+                color = Color.White;
+                for (int i = 0; i < 10; ++i) {
+                    numberButtons[i].Text = Convert.ToString(i);
+                }
+            }
+            btnPro.BackColor = color;
+        }
+
         public FormCalculator() {
             InitializeComponent();
             btnController = new ButtonController();
-            numberButtons = new Button[] { btn1, btn2, btn3, btn4, btn5,
-                                           btn6, btn7, btn8, btn9, btn0, btnDot }; // btnDot - исключение
+            numberButtons = new Button[] { btn0, btn1, btn2, btn3, btn4, btn5,
+                                           btn6, btn7, btn8, btn9, btnDot }; // btnDot - исключение
             selectButtons = new Button[] { btnPlus, btnMinus, btnMultiply, btnRealDiv, btnDiv, btnMod };
             Button[] changeButtons = new Button[] { btnSqr, btnSqrt };
             foreach (Button btn in numberButtons) {
                 btn.Click += btnController.OnClickButtonNumber;
                 btn.Click += ChangeData;
+                btn.Click += ProMode;
             }
             foreach (Button btn in selectButtons) {
                 btn.Click += btnController.OnClickButtonSelect;
@@ -52,6 +75,9 @@ namespace Calculator {
             btnMPlus.Click += btnController.OnClickButtonPlusNumberMemory;
             btnMMinus.Click += btnController.OnClickButtonMinusNumberMemory;
             btnMW.Click += ChangeDataFromMemory;
+
+            btnPro.Click += btnController.OnClickProButton;
+            btnPro.Click += ProMode;
         }
 
     }

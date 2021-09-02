@@ -9,12 +9,12 @@ namespace Calculator{
     class ButtonController{
         /* Класс обработчика событий с кнопок калькулятора */
         private string strRes;
-        //private double res;
         private double number1, number2;
         private double numberMemory;
         private bool isSelect;
         private bool hasDot;
         private int select; // Select: 1(+), 2(-), 3(*), 4(/), 5(div), 6(mod)
+        private bool proMode;
 
         private bool IsValidCountOfNumber(bool isequal = false) {
             bool flag = true, dot = false;
@@ -50,9 +50,9 @@ namespace Calculator{
             return flag;
         }
 
-        private bool IsValidRes() {
+        private bool IsValidRes(bool isDel = false) {
             bool flag = double.TryParse(strRes, out double outDouble);
-            if (strRes.Length == 2) {
+            if (strRes.Length == 2 && isDel) {
                 flag = flag && (strRes.Substring(0, 1) != "-");
             }
             flag = (flag && !(strRes == "0" || strRes == "-0." || 
@@ -68,6 +68,7 @@ namespace Calculator{
             select = 0;
             hasDot = false;
             isSelect = false;
+            proMode = false;
         }
 
         private double GetCalculatorResult() {
@@ -161,7 +162,7 @@ namespace Calculator{
         }
 
         public void OnClickButtonDel(object sender, EventArgs eventArgs) {
-            if (IsValidRes() && (strRes.Length > 1)) {
+            if (IsValidRes(true) && (strRes.Length > 1)) {
                 string strDigit = strRes.Substring(strRes.Length - 1);
                 strRes = strRes.Substring(0, strRes.Length - 1);
                 if (strDigit == ",") {
@@ -184,7 +185,7 @@ namespace Calculator{
                         number1 *= number1;
                         break;
                     case "√":
-                        if (number1 < 0) {
+                        if (number1 >= 0) {
                             number1 = Math.Sqrt(number1);
                         } else {
                             flagNeg = true;
@@ -234,6 +235,14 @@ namespace Calculator{
         public string GetMemoryRes() {
             strRes = Convert.ToString(numberMemory);
             return strRes;
+        }
+
+        public void OnClickProButton(object sender, EventArgs eventArgs) {
+            proMode = !proMode;
+        }
+
+        public bool GetPro() {
+            return proMode;
         }
     }
 }
