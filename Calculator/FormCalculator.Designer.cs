@@ -49,12 +49,14 @@ namespace Calculator
             this.btnMod = new System.Windows.Forms.Button();
             this.btnSqrt = new System.Windows.Forms.Button();
             this.btnSqr = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnMC = new System.Windows.Forms.Button();
+            this.btnMPlus = new System.Windows.Forms.Button();
+            this.btnMMinus = new System.Windows.Forms.Button();
             this.btnMR = new System.Windows.Forms.Button();
             this.btnDel = new System.Windows.Forms.Button();
             this.btnEqual = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnMW = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelResult
@@ -260,44 +262,44 @@ namespace Calculator
             this.btnSqr.Text = "^2";
             this.btnSqr.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnMC
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.Highlight;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(389, 162);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 50);
-            this.button1.TabIndex = 21;
-            this.button1.Text = "MC";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnMC.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnMC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnMC.Location = new System.Drawing.Point(389, 277);
+            this.btnMC.Name = "btnMC";
+            this.btnMC.Size = new System.Drawing.Size(106, 50);
+            this.btnMC.TabIndex = 21;
+            this.btnMC.Text = "MC";
+            this.btnMC.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnMPlus
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.Highlight;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(389, 218);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 50);
-            this.button2.TabIndex = 22;
-            this.button2.Text = "M+";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnMPlus.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnMPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnMPlus.Location = new System.Drawing.Point(389, 164);
+            this.btnMPlus.Name = "btnMPlus";
+            this.btnMPlus.Size = new System.Drawing.Size(50, 50);
+            this.btnMPlus.TabIndex = 22;
+            this.btnMPlus.Text = "M+";
+            this.btnMPlus.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnMMinus
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.Highlight;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(445, 218);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(50, 50);
-            this.button3.TabIndex = 23;
-            this.button3.Text = "M-";
-            this.button3.UseVisualStyleBackColor = false;
+            this.btnMMinus.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnMMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnMMinus.Location = new System.Drawing.Point(445, 164);
+            this.btnMMinus.Name = "btnMMinus";
+            this.btnMMinus.Size = new System.Drawing.Size(50, 50);
+            this.btnMMinus.TabIndex = 23;
+            this.btnMMinus.Text = "M-";
+            this.btnMMinus.UseVisualStyleBackColor = false;
             // 
             // btnMR
             // 
             this.btnMR.BackColor = System.Drawing.SystemColors.Highlight;
             this.btnMR.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnMR.Location = new System.Drawing.Point(445, 162);
+            this.btnMR.Location = new System.Drawing.Point(445, 220);
             this.btnMR.Name = "btnMR";
             this.btnMR.Size = new System.Drawing.Size(50, 50);
             this.btnMR.TabIndex = 24;
@@ -325,18 +327,42 @@ namespace Calculator
             this.btnEqual.Text = "Вычислить";
             this.btnEqual.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(54, 394);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(441, 18);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Число может иметь 10 знаков до запятой и 15 после запятой\r\n";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // btnMW
+            // 
+            this.btnMW.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnMW.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnMW.Location = new System.Drawing.Point(389, 220);
+            this.btnMW.Name = "btnMW";
+            this.btnMW.Size = new System.Drawing.Size(50, 50);
+            this.btnMW.TabIndex = 28;
+            this.btnMW.Text = "MW";
+            this.btnMW.UseVisualStyleBackColor = false;
+            // 
             // FormCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(556, 407);
+            this.ClientSize = new System.Drawing.Size(556, 430);
+            this.Controls.Add(this.btnMW);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnEqual);
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnMR);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnMMinus);
+            this.Controls.Add(this.btnMPlus);
+            this.Controls.Add(this.btnMC);
             this.Controls.Add(this.btnSqr);
             this.Controls.Add(this.btnSqrt);
             this.Controls.Add(this.btnMod);
@@ -386,12 +412,14 @@ namespace Calculator
         private System.Windows.Forms.Button btnMod;
         private System.Windows.Forms.Button btnSqrt;
         private System.Windows.Forms.Button btnSqr;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnMC;
+        private System.Windows.Forms.Button btnMPlus;
+        private System.Windows.Forms.Button btnMMinus;
         private System.Windows.Forms.Button btnMR;
         private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.Button btnEqual;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnMW;
     }
 }
 

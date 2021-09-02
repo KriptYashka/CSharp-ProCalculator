@@ -16,10 +16,14 @@ namespace Calculator{
         private bool hasDot;
         private int select; // Select: 1(+), 2(-), 3(*), 4(/), 5(div), 6(mod)
 
-        private bool IsValidCountOfNumber() {
+        private bool IsValidCountOfNumber(bool isequal = false) {
             bool flag = true, dot = false;
             int countBeforeDot = 0, countAfterDot = 0;
-            int reqCountBeforeDot = 8, reqCountAfterDot = 10;
+            int reqCountBeforeDot = 10, reqCountAfterDot = 15;
+            if (isequal) {
+                reqCountBeforeDot++;
+                reqCountAfterDot++;
+            }
             foreach (char symbol in strRes) {
                 if (Char.IsDigit(symbol)){
                     if (!dot) {
@@ -48,8 +52,11 @@ namespace Calculator{
 
         private bool IsValidRes() {
             bool flag = double.TryParse(strRes, out double outDouble);
+            if (strRes.Length == 2) {
+                flag = flag && (strRes.Substring(0, 1) != "-");
+            }
             flag = (flag && !(strRes == "0" || strRes == "-0." || 
-                strRes == "0." || strRes == ""));
+                strRes == "0." || strRes == "" || strRes == "-"));
             return flag;
         }
 
@@ -96,7 +103,7 @@ namespace Calculator{
             if (IsValidRes() && (select != 0)) {
                 double res = GetCalculatorResult();
                 strRes = Convert.ToString(res);
-                if (!IsValidCountOfNumber()) {
+                if (!IsValidCountOfNumber(true)) {
                     strRes = "Error: количество цифр до или после запятой превышает допустимое";
                 }
             } else {
@@ -126,9 +133,7 @@ namespace Calculator{
         public void OnClickButtonSelect(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strSel = btn.Text;
-            if (select == 0) {
-                number1 = Convert.ToDouble(strRes);
-            }
+            number2 = Convert.ToDouble(strRes);
             switch (strSel) {
                 case "+":
                     select = 1;
@@ -149,6 +154,9 @@ namespace Calculator{
                     select = 6;
                     break;
             }
+            int save = select;
+            number1 = GetCalculatorResult();
+            select = save;
             isSelect = true;
         }
 
@@ -168,6 +176,7 @@ namespace Calculator{
         public void OnClickButtonChange(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strSel = btn.Text;
+            bool flagNeg = false;
             if (IsValidRes()) {
                 number1 = Convert.ToDouble(strRes);
                 switch (strSel) {
@@ -175,7 +184,11 @@ namespace Calculator{
                         number1 *= number1;
                         break;
                     case "√":
-                        number1 = Math.Sqrt(number1);
+                        if (number1 < 0) {
+                            number1 = Math.Sqrt(number1);
+                        } else {
+                            flagNeg = true;
+                        }
                         break;
                     default:
                         break;
@@ -183,11 +196,43 @@ namespace Calculator{
                 strRes = Convert.ToString(number1);
                 if (!IsValidCountOfNumber()) {
                     strRes = "Error: количество цифр до или после запятой превышает допустимое";
+                } else if (flagNeg) {
+                    strRes = "Error: отрицательное число под корнем";
                 }
+                
             }
         }
 
         public string GetRes() {
+            return strRes;
+        }
+
+        /* Работа с памятью */
+
+        public void OnClickButtonClearMemory(object sender, EventArgs eventArgs) {
+            numberMemory = 0;
+        }
+
+        public void OnClickButtonPlusNumberMemory(object sender, EventArgs eventArgs) {
+            if (IsValidRes() && IsValidCountOfNumber()) {
+                numberMemory += Convert.ToDouble(strRes);
+            }
+        }
+
+        public void OnClickButtonMinusNumberMemory(object sender, EventArgs eventArgs) {
+            if (IsValidRes() && IsValidCountOfNumber()) {
+                numberMemory -= Convert.ToDouble(strRes);
+            }
+        }
+
+        public void OnClickButtonReadNumberMemory(object sender, EventArgs eventArgs) {
+            if (IsValidRes() && IsValidCountOfNumber()) {
+                numberMemory = Convert.ToDouble(strRes);
+            }
+        }
+
+        public string GetMemoryRes() {
+            strRes = Convert.ToString(numberMemory);
             return strRes;
         }
     }

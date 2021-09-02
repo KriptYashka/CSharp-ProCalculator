@@ -14,8 +14,13 @@ namespace Calculator {
         private Button[] selectButtons;
         private ButtonController btnController;
 
-        private void ChangeData(object s, EventArgs arg) {
+        private void ChangeData(object sender, EventArgs arg) {
             string res = btnController.GetRes();
+            this.labelResult.Text = res;
+        }
+
+        private void ChangeDataFromMemory(object sender, EventArgs eventArgs) {
+            string res = btnController.GetMemoryRes();
             this.labelResult.Text = res;
         }
 
@@ -41,7 +46,12 @@ namespace Calculator {
             btnDel.Click += ChangeData;
             btnEqual.Click += btnController.OnClickButtonEqual;
             btnEqual.Click += ChangeData;
-            
+
+            btnMR.Click += btnController.OnClickButtonReadNumberMemory;
+            btnMC.Click += btnController.OnClickButtonClearMemory;
+            btnMPlus.Click += btnController.OnClickButtonPlusNumberMemory;
+            btnMMinus.Click += btnController.OnClickButtonMinusNumberMemory;
+            btnMW.Click += ChangeDataFromMemory;
         }
 
     }
