@@ -58,6 +58,7 @@ namespace Calculator
             this.label1 = new System.Windows.Forms.Label();
             this.btnMW = new System.Windows.Forms.Button();
             this.btnPro = new System.Windows.Forms.Button();
+            this.labelMemory = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelResult
@@ -353,19 +354,29 @@ namespace Calculator
             // btnPro
             // 
             this.btnPro.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnPro.Location = new System.Drawing.Point(445, 57);
+            this.btnPro.Location = new System.Drawing.Point(40, 339);
             this.btnPro.Name = "btnPro";
             this.btnPro.Size = new System.Drawing.Size(50, 32);
             this.btnPro.TabIndex = 29;
             this.btnPro.Text = "Pro";
             this.btnPro.UseVisualStyleBackColor = true;
             // 
+            // labelMemory
+            // 
+            this.labelMemory.Location = new System.Drawing.Point(395, 333);
+            this.labelMemory.Name = "labelMemory";
+            this.labelMemory.Size = new System.Drawing.Size(100, 20);
+            this.labelMemory.TabIndex = 30;
+            this.labelMemory.Text = "0";
+            this.labelMemory.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // FormCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(556, 430);
+            this.ClientSize = new System.Drawing.Size(674, 430);
+            this.Controls.Add(this.labelMemory);
             this.Controls.Add(this.btnPro);
             this.Controls.Add(this.btnMW);
             this.Controls.Add(this.label1);
@@ -433,6 +444,7 @@ namespace Calculator
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnMW;
         private System.Windows.Forms.Button btnPro;
+        private System.Windows.Forms.TextBox labelMemory;
     }
 }
 

@@ -8,14 +8,7 @@ using System.Windows.Forms;
 namespace Calculator{
     class ButtonController{
         /* Класс обработчика событий с кнопок калькулятора */
-        private string strRes;
-        private double number1, number2;
-        private double numberMemory;
-        private bool isSelect;
-        private bool hasDot;
-        private int select; // Select: 1(+), 2(-), 3(*), 4(/), 5(div), 6(mod)
-        private bool proMode;
-
+        private CalculatorModel model;
         private bool IsValidCountOfNumber(bool isequal = false) {
             bool flag = true, dot = false;
             int countBeforeDot = 0, countAfterDot = 0;
@@ -24,7 +17,7 @@ namespace Calculator{
                 reqCountBeforeDot++;
                 reqCountAfterDot++;
             }
-            foreach (char symbol in strRes) {
+            foreach (char symbol in model.GetStrRes()) {
                 if (Char.IsDigit(symbol)){
                     if (!dot) {
                         countBeforeDot++;
@@ -34,11 +27,11 @@ namespace Calculator{
                 } else {
                     if (symbol == ',') {
                         dot = true;
-                        hasDot = true;
+                        model.SetHasDot(true);
                     }
                 }
             }
-            if (!hasDot) {
+            if (!model.GetHasDot()) {
                 if (countBeforeDot >= reqCountBeforeDot) {
                     flag = false;
                 }
@@ -51,49 +44,46 @@ namespace Calculator{
         }
 
         private bool IsValidRes(bool isDel = false) {
+            string strRes = model.GetStrRes();
             bool flag = double.TryParse(strRes, out double outDouble);
             if (strRes.Length == 2 && isDel) {
                 flag = flag && (strRes.Substring(0, 1) != "-");
             }
-            flag = (flag && !(strRes == "0" || strRes == "-0." || 
+            flag = (flag && !(strRes == "0" || strRes == "-0." ||
                 strRes == "0." || strRes == "" || strRes == "-"));
             return flag;
-        }
-
-        public ButtonController() {
-            strRes = "0";
-            number1 = 0;
-            number2 = 0;
-            numberMemory = 0;
-            select = 0;
-            hasDot = false;
-            isSelect = false;
-            proMode = false;
         }
 
         private double GetCalculatorResult() {
             double res = 0;
             if (IsValidRes()) {
-                number2 = Convert.ToDouble(strRes);
-                switch (select) {
-                    case 1:
-                        res = number1 + number2;
-                        break;
-                    case 2:
-                        res = number1 - number2;
-                        break;
-                    case 3:
-                        res = number1 * number2;
-                        break;
-                    case 4:
-                        res = number1 / number2;
-                        break;
-                    case 5:
-                        res = (int)(number1 / number2);
-                        break;
-                    case 6:
-                        res = number1 % number2;
-                        break;
+                model.SetNumber2(Convert.ToDouble(model.GetStrRes()));
+                if (model.GetFirst()) {
+                    res = model.GetNumber2();
+                } else {
+                    double number1 = model.GetNumber1();
+                    double number2 = model.GetNumber2();
+                    switch (model.GetSelect()) {
+                        
+                        case 1:
+                            res = number1 + number2;
+                            break;
+                        case 2:
+                            res = number1 - number2;
+                            break;
+                        case 3:
+                            res = number1 * number2;
+                            break;
+                        case 4:
+                            res = number1 / number2;
+                            break;
+                        case 5:
+                            res = (int)(number1 / number2);
+                            break;
+                        case 6:
+                            res = number1 % number2;
+                            break;
+                    }
                 }
             }
             select = 0;
@@ -102,8 +92,9 @@ namespace Calculator{
 
         public void OnClickButtonEqual(object sender, EventArgs eventArgs) {
             if (IsValidRes() && (select != 0)) {
-                double res = GetCalculatorResult();
-                strRes = Convert.ToString(res);
+                number1 = GetCalculatorResult();
+                strRes = Convert.ToString(number1);
+                first = true;
                 if (!IsValidCountOfNumber(true)) {
                     strRes = "Error: количество цифр до или после запятой превышает допустимое";
                 }
@@ -135,6 +126,9 @@ namespace Calculator{
             var btn = (Button)sender;
             string strSel = btn.Text;
             number2 = Convert.ToDouble(strRes);
+            if (first) {
+                number1 = number2;
+            }
             switch (strSel) {
                 case "+":
                     select = 1;
@@ -156,21 +150,28 @@ namespace Calculator{
                     break;
             }
             int save = select;
-            number1 = GetCalculatorResult();
+            if (select >= 4 && select <= 6 && first) {
+                select = 1;
+            }
+            if (!first) {
+                number1 = GetCalculatorResult();
+            }
             select = save;
             isSelect = true;
+            first = false;
         }
 
         public void OnClickButtonDel(object sender, EventArgs eventArgs) {
+            string strRes = model.GetStrRes();
             if (IsValidRes(true) && (strRes.Length > 1)) {
                 string strDigit = strRes.Substring(strRes.Length - 1);
-                strRes = strRes.Substring(0, strRes.Length - 1);
+                model.SetStrRes(strRes.Substring(0, strRes.Length - 1));
                 if (strDigit == ",") {
-                    hasDot = false;
+                    model.SetHasDot(false)
                 }
             } else {
-                strRes = "0";
-                hasDot = false;
+                model.SetStrRes("0");
+                model.SetHasDot(false);
             }
         }
 
@@ -179,14 +180,14 @@ namespace Calculator{
             string strSel = btn.Text;
             bool flagNeg = false;
             if (IsValidRes()) {
-                number1 = Convert.ToDouble(strRes);
+                model.SetNumber1(Convert.ToDouble(model.GetStrRes()));
                 switch (strSel) {
                     case "^2":
-                        number1 *= number1;
+                        model.SetNumber1(model.GetNumber1() * model.GetNumber1()); ;
                         break;
                     case "√":
-                        if (number1 >= 0) {
-                            number1 = Math.Sqrt(number1);
+                        if (model.GetNumber1() >= 0) {
+                            model.SetNumber1(Math.Sqrt(model.GetNumber1()));
                         } else {
                             flagNeg = true;
                         }
@@ -194,55 +195,58 @@ namespace Calculator{
                     default:
                         break;
                 }
-                strRes = Convert.ToString(number1);
+                model.SetStrRes(Convert.ToString(model.GetNumber1()));
                 if (!IsValidCountOfNumber()) {
-                    strRes = "Error: количество цифр до или после запятой превышает допустимое";
+                    model.SetStrRes("Error: количество цифр до или после запятой превышает допустимое");
                 } else if (flagNeg) {
-                    strRes = "Error: отрицательное число под корнем";
+                    model.SetStrRes("Error: отрицательное число под корнем");
                 }
                 
             }
         }
 
         public string GetRes() {
-            return strRes;
+            return model.GetStrRes();
         }
 
         /* Работа с памятью */
 
         public void OnClickButtonClearMemory(object sender, EventArgs eventArgs) {
-            numberMemory = 0;
+            model.SetNumberMemory(0);
         }
 
         public void OnClickButtonPlusNumberMemory(object sender, EventArgs eventArgs) {
             if (IsValidRes() && IsValidCountOfNumber()) {
-                numberMemory += Convert.ToDouble(strRes);
+                model.SetNumberMemory(Convert.ToDouble(model.GetStrRes()));
             }
         }
 
         public void OnClickButtonMinusNumberMemory(object sender, EventArgs eventArgs) {
             if (IsValidRes() && IsValidCountOfNumber()) {
-                numberMemory -= Convert.ToDouble(strRes);
+                model.SetNumberMemory(Convert.ToDouble(model.GetStrRes()));
             }
         }
 
         public void OnClickButtonReadNumberMemory(object sender, EventArgs eventArgs) {
             if (IsValidRes() && IsValidCountOfNumber()) {
-                numberMemory = Convert.ToDouble(strRes);
+                model.SetNumberMemory(Convert.ToDouble(model.GetStrRes()));
             }
         }
 
-        public string GetMemoryRes() {
-            strRes = Convert.ToString(numberMemory);
-            return strRes;
+        public string GetMemoryRes(bool change = false) {
+            if (change) {
+                model.SetStrRes(Convert.ToString(model.GetNumberMemory()));
+            }
+            return model.GetStrRes();
         }
 
         public void OnClickProButton(object sender, EventArgs eventArgs) {
-            proMode = !proMode;
+            bool proMode = model.GetProMode();
+            model.SetProMode(!proMode);
         }
 
         public bool GetPro() {
-            return proMode;
+            return model.GetProMode();
         }
     }
 }

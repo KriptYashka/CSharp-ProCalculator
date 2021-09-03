@@ -20,8 +20,13 @@ namespace Calculator {
         }
 
         private void ChangeDataFromMemory(object sender, EventArgs eventArgs) {
-            string res = btnController.GetMemoryRes();
+            string res = btnController.GetMemoryRes(true);
             this.labelResult.Text = res;
+        }
+
+        private void ChangeDataFieldMemory(object sender, EventArgs eventArgs) {
+            string res = btnController.GetMemoryRes();
+            this.labelMemory.Text = res;
         }
 
         private void ProMode(object sender, EventArgs eventArgs) {
@@ -30,7 +35,7 @@ namespace Calculator {
                 color = Color.Red;
                 string digits = "0123456789";
                 Random r = new Random();
-                for (int i = 0; i < 9; ++i) {
+                for (int i = 0; i < 10; ++i) {
                     int index = r.Next(digits.Length);
                     char digitChr = digits[index];
                     digits = digits.Remove(index, 1);
@@ -75,6 +80,10 @@ namespace Calculator {
             btnMPlus.Click += btnController.OnClickButtonPlusNumberMemory;
             btnMMinus.Click += btnController.OnClickButtonMinusNumberMemory;
             btnMW.Click += ChangeDataFromMemory;
+            Button[] btnMemory = { btnMR, btnMC, btnMPlus, btnMMinus, btnMW };
+            foreach (Button btn in btnMemory) {
+                btn.Click += ChangeDataFieldMemory;
+            }
 
             btnPro.Click += btnController.OnClickProButton;
             btnPro.Click += ProMode;
