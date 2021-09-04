@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonController.cs" />
+    <Compile Include="CalculatorModel.cs" />
     <Compile Include="FormCalculator.cs">
       <SubType>Form</SubType>
     </Compile>

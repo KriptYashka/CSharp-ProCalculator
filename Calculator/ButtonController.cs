@@ -167,7 +167,7 @@ namespace Calculator{
                 string strDigit = strRes.Substring(strRes.Length - 1);
                 model.SetStrRes(strRes.Substring(0, strRes.Length - 1));
                 if (strDigit == ",") {
-                    model.SetHasDot(false)
+                    model.SetHasDot(false);
                 }
             } else {
                 model.SetStrRes("0");
