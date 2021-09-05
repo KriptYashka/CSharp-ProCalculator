@@ -186,13 +186,14 @@ namespace Calculator
             // 
             // btnPlus
             // 
+            this.btnPlus.BackColor = System.Drawing.Color.Transparent;
             this.btnPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnPlus.Location = new System.Drawing.Point(277, 106);
             this.btnPlus.Name = "btnPlus";
             this.btnPlus.Size = new System.Drawing.Size(50, 50);
             this.btnPlus.TabIndex = 13;
             this.btnPlus.Text = "+";
-            this.btnPlus.UseVisualStyleBackColor = true;
+            this.btnPlus.UseVisualStyleBackColor = false;
             // 
             // btnMinus
             // 

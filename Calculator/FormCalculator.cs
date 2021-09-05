@@ -29,6 +29,18 @@ namespace Calculator {
             this.labelMemory.Text = res;
         }
 
+        private void SetSelectButton(object sender, EventArgs eventArgs){
+            Button currentBtn = (Button)sender;
+            ClearSelectButton(sender, eventArgs);
+            currentBtn.BackColor = Color.Aqua;
+        }
+
+        private void ClearSelectButton(object sender, EventArgs eventArgs){
+            foreach (Button btn in selectButtons){
+                btn.BackColor = Color.Transparent;
+            }
+        }
+
         private void ProMode(object sender, EventArgs eventArgs) {
             Color color;
             if (btnController.GetPro()) {
@@ -43,7 +55,7 @@ namespace Calculator {
                 }
 
             } else {
-                color = Color.White;
+                color = Color.Transparent;
                 for (int i = 0; i < 10; ++i) {
                     numberButtons[i].Text = Convert.ToString(i);
                 }
@@ -65,6 +77,7 @@ namespace Calculator {
             }
             foreach (Button btn in selectButtons) {
                 btn.Click += btnController.OnClickButtonSelect;
+                btn.Click += SetSelectButton;
             }
             foreach (Button btn in changeButtons) {
                 btn.Click += btnController.OnClickButtonChange;
@@ -74,6 +87,7 @@ namespace Calculator {
             btnDel.Click += ChangeData;
             btnEqual.Click += btnController.OnClickButtonEqual;
             btnEqual.Click += ChangeData;
+            btnEqual.Click += ClearSelectButton;
 
             btnMR.Click += btnController.OnClickButtonReadNumberMemory;
             btnMC.Click += btnController.OnClickButtonClearMemory;

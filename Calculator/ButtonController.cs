@@ -170,7 +170,7 @@ namespace Calculator{
 
         public void OnClickButtonDel(object sender, EventArgs eventArgs) {
             string strRes = model.GetStrRes();
-            if (IsValidRes(true) && (strRes.Length > 1)) {
+            if (IsValidRes(true) && (strRes.Length > 1) && !model.GetIsSelect()) {
                 string strDigit = strRes.Substring(strRes.Length - 1);
                 model.SetStrRes(strRes.Substring(0, strRes.Length - 1));
                 if (strDigit == ",") {
