@@ -9,6 +9,11 @@ namespace Calculator{
     class ButtonController{
         /* Класс обработчика событий с кнопок калькулятора */
         private CalculatorModel model;
+
+        public ButtonController(){
+            model = new CalculatorModel();
+        }
+
         private bool IsValidCountOfNumber(bool isequal = false) {
             bool flag = true, dot = false;
             int countBeforeDot = 0, countAfterDot = 0;
@@ -86,79 +91,81 @@ namespace Calculator{
                     }
                 }
             }
-            select = 0;
+            model.SetSelect(0);
             return res;
         }
 
         public void OnClickButtonEqual(object sender, EventArgs eventArgs) {
-            if (IsValidRes() && (select != 0)) {
-                number1 = GetCalculatorResult();
-                strRes = Convert.ToString(number1);
-                first = true;
+            if (IsValidRes() && (model.GetSelect() != 0)) {
+                model.SetNumber1(GetCalculatorResult());
+                model.SetStrRes(Convert.ToString(model.GetNumber1()));
+                model.SetFirst(true);
                 if (!IsValidCountOfNumber(true)) {
-                    strRes = "Error: количество цифр до или после запятой превышает допустимое";
+                    model.SetStrRes("Error: количество цифр до или после запятой превышает допустимое");
                 }
             } else {
-                strRes = "Error";
+                model.SetStrRes("Error");
             }
         }
 
         public void OnClickButtonNumber(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strDigit = btn.Text;
-            if (((!IsValidCountOfNumber() && (strDigit != ",")) || (hasDot && strDigit == ",")) && !isSelect) {
+            if (((!IsValidCountOfNumber() && (strDigit != ",")) || (model.GetHasDot() && strDigit == ",")) && !model.GetIsSelect()) {
                 /* Если длина числа несоответствующая и набираешь не запятную или есть 
                  * запятая и пытаешься ввести её снова, тогда игнорируй кнопку */
                 return;
             }
-            if ((!IsValidRes() && strDigit != ",") || isSelect) {
-                strRes = "";
-                hasDot = false;
-                isSelect = false;
+            if ((!IsValidRes() && strDigit != ",") || model.GetIsSelect()) {
+                model.SetStrRes("");
+                model.SetHasDot(false);
+                model.SetIsSelect(false);
             }
             if (strDigit == ",") {
-                hasDot = true;
+                model.SetHasDot(true);
             }
-            strRes += strDigit;
+            string newStr = model.GetStrRes() + strDigit;
+            model.SetStrRes(newStr);
         }
 
         public void OnClickButtonSelect(object sender, EventArgs eventArgs) {
             var btn = (Button)sender;
             string strSel = btn.Text;
-            number2 = Convert.ToDouble(strRes);
-            if (first) {
-                number1 = number2;
+            double num = Convert.ToDouble(model.GetStrRes());
+            model.SetNumber2(num);
+            if (model.GetFirst()) {
+                model.SetNumber1(num);
             }
             switch (strSel) {
                 case "+":
-                    select = 1;
+                    model.SetSelect(1);
                     break;
                 case "-":
-                    select = 2;
+                    model.SetSelect(2);
                     break;
                 case "*":
-                    select = 3;
+                    model.SetSelect(3);
                     break;
                 case "/":
-                    select = 4;
+                    model.SetSelect(4);
                     break;
                 case "Без остатка":
-                    select = 5;
+                    model.SetSelect(5);
                     break;
                 case "Остаток":
-                    select = 6;
+                    model.SetSelect(6);
                     break;
             }
-            int save = select;
-            if (select >= 4 && select <= 6 && first) {
-                select = 1;
+            int sel = model.GetSelect();
+            if (sel >= 4 && sel <= 6 && model.GetFirst()) {
+                model.SetSelect(1);
             }
-            if (!first) {
-                number1 = GetCalculatorResult();
+            if (!model.GetFirst()) {
+                model.SetNumber1(GetCalculatorResult());
             }
-            select = save;
-            isSelect = true;
-            first = false;
+            model.SetSelect(sel);
+            model.SetIsSelect(true);
+            model.SetFirst(false);
         }
 
         public void OnClickButtonDel(object sender, EventArgs eventArgs) {
