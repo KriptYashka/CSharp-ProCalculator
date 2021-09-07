@@ -136,6 +136,13 @@ namespace Calculator{
             if (model.GetFirst()) {
                 model.SetNumber1(num);
             }
+            int sel = model.GetSelect();
+            if (sel >= 4 && sel <= 6 && model.GetFirst()){
+                model.SetSelect(1);
+            }
+            if (!model.GetFirst() && !model.GetIsSelect()){
+                model.SetNumber1(GetCalculatorResult());
+            }
             switch (strSel) {
                 case "+":
                     model.SetSelect(1);
@@ -156,15 +163,7 @@ namespace Calculator{
                     model.SetSelect(6);
                     break;
             }
-            int sel = model.GetSelect();
-            if (sel >= 4 && sel <= 6 && model.GetFirst()) {
-                model.SetSelect(1);
-            }
-            if (!model.GetFirst() && !model.GetIsSelect()) {
-                model.SetNumber1(GetCalculatorResult());
-            }
             model.SetStrRes("0");
-            model.SetSelect(sel);
             model.SetIsSelect(true);
             model.SetFirst(false);
         }
