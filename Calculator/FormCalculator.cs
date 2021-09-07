@@ -78,6 +78,7 @@ namespace Calculator {
             foreach (Button btn in selectButtons) {
                 btn.Click += btnController.OnClickButtonSelect;
                 btn.Click += SetSelectButton;
+                btn.Click += ChangeData;
             }
             foreach (Button btn in changeButtons) {
                 btn.Click += btnController.OnClickButtonChange;

@@ -160,9 +160,10 @@ namespace Calculator{
             if (sel >= 4 && sel <= 6 && model.GetFirst()) {
                 model.SetSelect(1);
             }
-            if (!model.GetFirst()) {
+            if (!model.GetFirst() && !model.GetIsSelect()) {
                 model.SetNumber1(GetCalculatorResult());
             }
+            model.SetStrRes("0");
             model.SetSelect(sel);
             model.SetIsSelect(true);
             model.SetFirst(false);
